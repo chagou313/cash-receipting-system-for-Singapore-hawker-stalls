@@ -5,3 +5,4 @@ venv/
 .DS_Store
 Thumbs.db
 .streamlit/secrets.toml
+.pytest_cache/

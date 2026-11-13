@@ -1,86 +1,122 @@
+<div align="center">
+
 # 🧾 Ah Beng Cash Receipting System
 
-A simple cash receipting and sales reconciliation system for hawker centre stalls, built with **Python** and **Streamlit**.
+**A lightweight point-of-sale and sales-reconciliation app for Singapore hawker stalls**
 
-It was designed for a small vegetarian food stall ("Ah Beng Vegetarian Food"): the stall owner records each sale, the system calculates the change due, and daily and monthly reports show how much was sold and how customers paid. All data is kept in one plain CSV file, so there is no database to set up.
+[![Tests](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml/badge.svg)](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.50%2B-FF4B4B?logo=streamlit&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-2E7D32)
 
-> Course project for **AN6100 Programming Essentials** (Assignment & Presentation Part 3, 2026).
+English | [简体中文](README.zh-CN.md)
+
+<img src="docs/screenshots/daily-report.png" alt="Daily sales report" width="820">
+
+</div>
+
+## Overview
+
+Many hawker stall owners still track sales with a notebook and a calculator. At the end of the day they need to answer simple questions: *How much did I sell? How much should be in the cash box? How much came in through PayNow, PayLah! or card?*
+
+This app answers those questions. The stall owner records each sale in a few seconds and the system works out the change for cash payments. It then produces daily and monthly reports broken down by payment method. It runs locally in a browser, needs no database or internet connection, and stores everything in one CSV file that opens in Excel.
+
+The app was built for a vegetarian food stall ("Ah Beng Vegetarian Food") as the final project for the **AN6100 Programming Essentials** course (2026).
 
 ## Features
 
-**🧾 New Transaction**
-- Record a sale with business date, payment type and amount
-- Supports the four common Singapore hawker payment methods: **Cash, PayNow, PayLah!, payWave**
-- Change is calculated automatically for cash payments; the system warns when the amount rendered is short
-- "Today at a glance" shows today's sales and the last transaction
+| | Feature | What it does |
+| --- | --- | --- |
+| 🧾 | **Fast sale entry** | Record a sale with date, amount and payment type. Change is calculated live and short payments are flagged before saving. |
+| 💳 | **Singapore payment methods** | Cash, PayNow, PayLah! and payWave, each with its own colour and icon across the app. |
+| 📅 | **Daily reconciliation** | Totals for sales, cash received and change returned, so the owner can check the cash box at closing time. |
+| 🍩 | **Payment breakdown** | Donut chart and cards showing each payment method's share of sales. |
+| 📈 | **Sales trend** | Line chart of daily sales with a slider to scroll through history, plus best day and daily average. |
+| 📊 | **Monthly summary** | Any date range: sales by month, monthly split by payment type, and a day-by-day table. |
+| ✏️ | **Corrections** | Edit or delete a wrong receipt. Change is recalculated and deletion needs a confirmation. |
+| ⬇️ | **CSV export** | Every summary table can be downloaded for bookkeeping or an accountant. |
 
-**📅 Daily Report**
-- Totals for a chosen day: transactions, sales, amount rendered and change returned
-- Filter by payment type
-- Payment breakdown donut chart with per-payment cards
-- Daily sales trend chart across all recorded days (10-day window with a slider)
-- Best business day and average sales per day
-- Download the payment summary and transaction listing as CSV
+## Screenshots
 
-**📊 Monthly Report**
-- Choose any date range and payment types
-- Sales-by-month bar chart, best month and monthly average
-- Monthly sales split by payment type, plus a daily sales summary
-- CSV export for every summary table
+<table>
+  <tr>
+    <td width="50%"><b>New transaction</b><br><img src="docs/screenshots/new-transaction.png" alt="New transaction page"></td>
+    <td width="50%"><b>Manage transactions</b><br><img src="docs/screenshots/manage-transactions.png" alt="Manage transactions page"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>Monthly report</b><br><img src="docs/screenshots/monthly-report.png" alt="Monthly report page"></td>
+  </tr>
+</table>
 
-**✏️ Manage Transactions**
-- Edit a recorded receipt (date, payment type, amounts); change is recalculated
-- Delete an incorrect receipt, with a confirmation step
+## Design highlights
 
-## Project structure
-
-```
-ah-beng-receipting/
-├── app.py                  # The whole application (logic + Streamlit UI)
-├── data/
-│   └── transactions.csv    # Sales records (includes sample data)
-├── .streamlit/
-│   └── config.toml         # Green theme and server settings
-├── requirements.txt
-└── README.md
-```
+- **Business logic separated from the UI.** All calculations (change, totals, filters, monthly and payment summaries) are plain Python functions with no Streamlit calls. This keeps them easy to test and reuse; the Streamlit layer only reads input and renders results.
+- **Money handled carefully.** Amounts are validated, rounded to two decimal places, and stored as fixed-format strings, which avoids floating-point surprises such as `10.00 - 8.80 = 1.1999…`.
+- **Data integrity checks.** On load, the CSV header and every row (payment type, timestamps, dates, amounts) are validated. A bad row produces a clear error with its line number instead of a silently wrong report.
+- **Safe editing.** Edits keep the original receipt number and timestamp, and the change is recalculated through the same rules as a new sale.
+- **No-dependency charts.** The payment donut and the daily trend line are drawn with CSS `conic-gradient` and inline SVG. The monthly bar chart uses a Vega-Lite spec.
+- **Tested.** 30 `pytest` unit tests cover the payment rules, CSV storage, edit and delete, and report calculations. They run on every push through GitHub Actions.
 
 ## Getting started
 
-Requirements: Python 3 and Streamlit 1.50 or newer.
+Requirements: Python 3.10+ and Streamlit 1.50+.
 
 ```bash
-git clone https://github.com/<your-username>/ah-beng-receipting.git
+git clone https://github.com/chagou313/ah-beng-receipting.git
 cd ah-beng-receipting
 python3 -m pip install -r requirements.txt
 python3 -m streamlit run app.py
 ```
 
-Then open http://localhost:8501 in your browser. Press `Ctrl + C` in the terminal to stop the app.
+The app opens at http://localhost:8501. Press `Ctrl + C` in the terminal to stop it.
 
-Run the command from the project folder so Streamlit picks up the theme in `.streamlit/config.toml`.
+Run the command from the project folder so Streamlit picks up the green theme in `.streamlit/config.toml`.
 
-## Data file
+### Run the tests
 
-Every sale is stored in `data/transactions.csv` with these columns:
+```bash
+python3 -m pip install pytest
+python3 -m pytest -v
+```
 
-| Column | Meaning |
-| --- | --- |
-| `transaction_id` | Receipt number, e.g. `R20260926134255115885` |
-| `timestamp` | When the sale was recorded (`YYYY-MM-DD HH:MM:SS`) |
-| `business_date` | The trading day the sale belongs to |
-| `sale_amount` | Sale amount (S$) |
-| `amount_rendered` | Amount the customer gave (equals the sale for electronic payments) |
-| `change_amount` | Change returned (0.00 for electronic payments) |
-| `payment_type` | `Cash`, `PayNow`, `PayLah!` or `payWave` |
+## Project structure
 
-Notes:
-- The file ships with sample sales from August–September 2026. Delete it to start fresh; a new file is created when the first sale is recorded.
-- Do not rename the columns — the app checks the header when loading.
-- Stop the app before opening or copying the CSV file.
+```
+ah-beng-receipting/
+├── app.py                      # Business logic + Streamlit interface
+├── data/
+│   └── transactions.csv        # Sales records (ships with sample data)
+├── tests/
+│   └── test_app.py             # Unit tests for the business logic
+├── docs/screenshots/           # Images used in this README
+├── .streamlit/config.toml      # Theme and server settings
+├── .github/workflows/tests.yml # CI: runs the tests on every push
+└── requirements.txt
+```
 
-## Tech stack
+## Data format
 
-- Python 3 (standard library `csv`, `datetime`, `os`)
-- Streamlit for the web interface
-- Vega-Lite (via `st.vega_lite_chart`) and inline SVG / CSS for charts
+Each sale is one row in `data/transactions.csv`:
+
+| Column | Example | Meaning |
+| --- | --- | --- |
+| `transaction_id` | `R20260926134255115885` | Receipt number, generated from the time of sale |
+| `timestamp` | `2026-09-26 13:42:55` | When the sale was recorded |
+| `business_date` | `2026-09-26` | The trading day the sale belongs to |
+| `sale_amount` | `9.80` | Sale amount (S$) |
+| `amount_rendered` | `10.00` | Amount the customer paid (equals the sale for electronic payments) |
+| `change_amount` | `0.20` | Change returned (`0.00` for electronic payments) |
+| `payment_type` | `Cash` | `Cash`, `PayNow`, `PayLah!` or `payWave` |
+
+The file ships with sample sales from August–September 2026. Delete it to start fresh; a new one is created with the first sale. Don't rename the columns, and stop the app before opening the file in another program.
+
+## Possible next steps
+
+- Menu items and quantities instead of a single sale amount
+- SQLite storage for multiple devices or larger volumes
+- Printable or shareable digital receipts
+- Deployment to Streamlit Community Cloud with a login for the stall owner
+
+## License
+
+[MIT](LICENSE) © 2026 Xu Jie
