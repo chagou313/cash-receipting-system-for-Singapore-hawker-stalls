@@ -4,7 +4,7 @@
 
 **为新加坡小贩中心摊主设计的轻量收银与对账应用**
 
-[![Tests](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml/badge.svg)](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml)
+[![Tests](https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls/actions/workflows/tests.yml/badge.svg)](https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.50%2B-FF4B4B?logo=streamlit&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-2E7D32)
@@ -62,8 +62,8 @@
 环境要求：Python 3.10 及以上，Streamlit 1.50 及以上。
 
 ```bash
-git clone https://github.com/chagou313/ah-beng-receipting.git
-cd ah-beng-receipting
+git clone https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls.git
+cd cash-receipting-system-for-Singapore-hawker-stalls
 python3 -m pip install -r requirements.txt
 python3 -m streamlit run app.py
 ```
@@ -82,7 +82,7 @@ python3 -m pytest -v
 ## 项目结构
 
 ```
-ah-beng-receipting/
+cash-receipting-system-for-Singapore-hawker-stalls/
 ├── app.py                      # 业务逻辑 + Streamlit 界面
 ├── data/
 │   └── transactions.csv        # 销售记录（附示例数据）

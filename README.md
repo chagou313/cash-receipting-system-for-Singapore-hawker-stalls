@@ -4,7 +4,7 @@
 
 **A lightweight point-of-sale and sales-reconciliation app for Singapore hawker stalls**
 
-[![Tests](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml/badge.svg)](https://github.com/chagou313/ah-beng-receipting/actions/workflows/tests.yml)
+[![Tests](https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls/actions/workflows/tests.yml/badge.svg)](https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.50%2B-FF4B4B?logo=streamlit&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-2E7D32)
@@ -62,8 +62,8 @@ The app was built for a vegetarian food stall ("Ah Beng Vegetarian Food") as the
 Requirements: Python 3.10+ and Streamlit 1.50+.
 
 ```bash
-git clone https://github.com/chagou313/ah-beng-receipting.git
-cd ah-beng-receipting
+git clone https://github.com/chagou313/cash-receipting-system-for-Singapore-hawker-stalls.git
+cd cash-receipting-system-for-Singapore-hawker-stalls
 python3 -m pip install -r requirements.txt
 python3 -m streamlit run app.py
 ```
@@ -82,7 +82,7 @@ python3 -m pytest -v
 ## Project structure
 
 ```
-ah-beng-receipting/
+cash-receipting-system-for-Singapore-hawker-stalls/
 ├── app.py                      # Business logic + Streamlit interface
 ├── data/
 │   └── transactions.csv        # Sales records (ships with sample data)
